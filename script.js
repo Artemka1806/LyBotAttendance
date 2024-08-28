@@ -33,7 +33,7 @@ function createTabs(data, grades, activeTab) {
 		if (e == activeTab) {
 			tab.classList.add("active", "has-bg-white", "has-text-primary")
 		}
-		tab.addEventListener("click",  function() { setTab(tab, tabChildrens, e); }, false)
+		tab.addEventListener("click",  function() { setTab(tab, tabChildrens, grades); }, false)
 		tabChildrens.push(tab)
 		tabContainer.appendChild(tab)
 
@@ -41,7 +41,7 @@ function createTabs(data, grades, activeTab) {
 }
 
 
-function setTab(target, allElements, grade) {
+function setTab(target, allElements, grades) {
 	if (!target.classList.contains("active")){
 		allElements.forEach(function(e) {
 			if (e.classList.contains("active")) {

@@ -87,15 +87,14 @@ function createStudentsTable(data, grades) {
 function createSection(grade) {
 	let section = document.createElement("div")
 	section.setAttribute("id", `grade-${grade}`)
-	section.classList.add("table-container", "columns", "is-hidden", "has-w-full")
+	section.classList.add("table-container", "columns", "is-hidden", "has-w-full", "has-ml-0", "has-mr-0")
 	return section
 }
 
 
 function createTable(groupName) {
 	let table = document.createElement("table")
-	table.classList.add("column", "is-full-mobile", "has-mb-0")
-	table.setAttribute("style", "min-width: 20% !important; max-width: 20% !important")
+	table.classList.add("column", "is-full-mobile", "has-mb-0", "is-one-fifth")
 	let head = document.createElement("thead")
 	let tr = document.createElement("tr")
 	let thName = document.createElement("th")

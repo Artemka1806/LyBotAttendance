@@ -17,9 +17,9 @@ axios.get("data.json")
 
 
 const statuses = [
-	["si-check", "green;"],
+	["si-check", "green"],
 	["si-location", "pink"],
-	["si-clock", "blue;"],
+	["si-clock", "blue"],
 	["si-x", "red"],
 ]
 
@@ -84,48 +84,43 @@ function createStudentsTable(data, grades) {
 	});
 }
 
+
 function createSection(grade) {
 	let section = document.createElement("div")
+
 	section.setAttribute("id", `grade-${grade}`)
 	section.classList.add("table-container", "columns", "is-hidden", "has-w-full", "has-ml-0", "has-mr-0")
+
 	return section
 }
 
 
 function createTable(groupName) {
-	let table = document.createElement("table")
-	table.classList.add("column", "is-full-mobile", "has-mb-0", "is-one-fifth")
-	let head = document.createElement("thead")
-	let tr = document.createElement("tr")
-	let thName = document.createElement("th")
-	thName.classList.add("has-p-2")
-	thName.innerText = groupName
-	let thStatus = document.createElement("th")
-	thStatus.classList.add("has-p-2")
-	thStatus.innerText = "Статус"
-	tr.appendChild(thName)
-	tr.appendChild(thStatus)
-	head.appendChild(tr)
-	table.appendChild(head)
-	let body = document.createElement("tbody")
-	table.appendChild(body)
-	return table
+    let table = document.createElement("table");
+    table.classList.add("column", "is-full-mobile", "has-mb-0", "is-one-fifth");
+
+    table.innerHTML = `
+        <thead>
+            <tr>
+                <th class="has-p-2">${groupName}</th>
+                <th class="has-p-2">Статус</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    `;
+    
+    return table;
 }
 
 
 function createRow(name, status) {
-	let row = document.createElement("tr")
-	let tdName = document.createElement("td")
-	tdName.classList.add("has-p-2")
-	tdName.innerText = name
-	let tdStatus = document.createElement("td")
-	tdStatus.classList.add("has-p-2", "has-text-center")
-	let statusIcon = document.createElement("i")
-	statusIcon.classList.add(statuses[status][0])
-	statusIcon.setAttribute("style", `font-size: 20px; color: ${statuses[status][1]};`)
-	tdStatus.appendChild(statusIcon)
-	row.appendChild(tdName)
-	row.appendChild(tdStatus)
-	return row
+    let row = document.createElement("tr");
+    row.innerHTML = `
+        <td class="has-p-2">${name}</td>
+        <td class="has-p-2 has-text-center">
+            <i class="${statuses[status][0]}" style="font-size: 20px; color: ${statuses[status][1]};"></i>
+        </td>
+    `;
+    return row;
 }
 

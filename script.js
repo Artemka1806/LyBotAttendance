@@ -17,10 +17,10 @@ axios.get("data.json")
 
 
 const statuses = [
-	["si-check", "green"],
-	["si-location", "pink"],
-	["si-clock", "blue"],
-	["si-x", "red"],
+	["si-check", "green", "В ліцеї"],
+	["si-location", "pink", "В дорозі"],
+	["si-clock", "blue", "Запізниться"],
+	["si-x", "red", "Вдома"],
 ]
 
 function createTabs(data, grades, activeTab) {
@@ -117,8 +117,9 @@ function createRow(name, status) {
     let row = document.createElement("tr");
     row.innerHTML = `
         <td class="has-p-2">${name}</td>
-        <td class="has-p-2 has-text-center">
+        <td class="has-p-2 has-text-center tooltip">
             <i class="${statuses[status][0]}" style="font-size: 20px; color: ${statuses[status][1]};"></i>
+            <span class="tooltiptext">${statuses[status][2]}</span>
         </td>
     `;
     return row;

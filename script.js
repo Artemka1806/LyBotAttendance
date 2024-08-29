@@ -18,7 +18,7 @@ axios.get("data.json")
 
 const statuses = [
 	["si-check", "green", "В ліцеї"],
-	["si-location", "pink", "В дорозі"],
+	["si-rocket", "black", "В дорозі"],
 	["si-clock", "blue", "Запізниться"],
 	["si-x", "red", "Вдома"],
 ]

@@ -1,3 +1,11 @@
+const urlParams = new URLSearchParams(window.location.search);
+
+
+const alertParam = urlParams.get("alert");
+if (alertParam != null){
+	createModal("Увага", alertParam)
+}
+
 const tabContainer = document.querySelector(".tab-container");
 let tabChildrens = [];
 
@@ -125,3 +133,27 @@ function createRow(name, status) {
     return row;
 }
 
+
+function createModal(header, text) {
+	let modal = document.createElement("div")
+	modal.classList.add("scrim")
+	modal.innerHTML = `
+    <div class="modal">
+        <div class="is-flex has-items-center">
+            <h4 class="has-mb-none has-mt-none">${header}</h4>
+            <div class="close has-ml-auto" onclick="deleteModal()"></div>
+        </div>
+        <div class="has-pt-6">
+            ${text}
+        </div>
+    </div>
+    `;
+    document.querySelector("body").appendChild(modal)
+    return modal
+
+}
+
+function deleteModal() {
+	let modal = document.querySelector("div.scrim")
+	modal.remove()
+}

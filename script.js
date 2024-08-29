@@ -135,20 +135,21 @@ function createRow(name, status) {
 
 
 function createModal(header, text) {
+	let scrim = document.createElement("div")
+	scrim.classList.add("scrim")
 	let modal = document.createElement("div")
-	modal.classList.add("scrim")
+	modal.classList.add("modal")
 	modal.innerHTML = `
-    <div class="modal">
-        <div class="is-flex has-items-center">
-            <h4 class="has-mb-none has-mt-none">${header}</h4>
-            <div class="close has-ml-auto" onclick="deleteModal()"></div>
-        </div>
-        <div class="has-pt-6">
-            ${text}
-        </div>
+    <div class="is-flex has-items-center">
+        <h4 class="has-mb-none has-mt-none">${header}</h4>
+        <div class="close has-ml-auto" onclick="deleteModal()"></div>
+    </div>
+    <div class="has-pt-6">
+        ${text}
     </div>
     `;
-    document.querySelector("body").appendChild(modal)
+    scrim.appendChild(modal)
+    document.querySelector("body").appendChild(scrim)
     return modal
 
 }

@@ -81,8 +81,10 @@ function createStudentsTable(data, grades) {
 			let studentsData = gradeData[group]
 			let studentNames = Object.keys(studentsData)
 			studentNames.forEach(function(student) {
-				let status = studentsData[student]
-				let row = createRow(student, status)
+				let name = studentsData[student]["name"]
+				let status = studentsData[student]["status"]
+				let message = studentsData[student]["message"]
+				let row = createRow(student, status, message)
 
 				tbody.appendChild(row)
 			});
@@ -121,10 +123,14 @@ function createTable(groupName) {
 }
 
 
-function createRow(name, status) {
+function createRow(name, status, message) {
+	let messageElement = ""
+	if (message) {
+		messageElement = `<i class="si-message" style="color: blue;" onclick="createModal('Причина запізнення', '${message}')"></i> `
+	}
     let row = document.createElement("tr");
     row.innerHTML = `
-        <td class="has-p-2">${name}</td>
+        <td class="has-p-2">${messageElement}${name}</td>
         <td class="has-p-2 has-text-center tooltip">
             <i class="${statuses[status][0]}" style="font-size: 20px; color: ${statuses[status][1]};"></i>
             <span class="tooltiptext">${statuses[status][2]}</span>
@@ -156,5 +162,9 @@ function createModal(header, text) {
 
 function deleteModal() {
 	let modal = document.querySelector("div.scrim")
-	modal.remove()
+	if (modal) {
+		modal.remove()
+	}
 }
+
+ document.addEventListener("keydown", function(event) { if (event.key == "Escape") {deleteModal()}})

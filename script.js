@@ -41,7 +41,7 @@ function createTabs(data, grades, activeTab) {
 		if (e == activeTab) {
 			tab.classList.add("active", "has-bg-white", "has-text-primary")
 		}
-		tab.addEventListener("click",  function() { setTab(tab, tabChildrens, grades); }, false)
+		tab.addEventListener("click",  function() { setTab(tab, tabChildrens, grades, e); }, false)
 		tabChildrens.push(tab)
 		tabContainer.appendChild(tab)
 
@@ -49,7 +49,7 @@ function createTabs(data, grades, activeTab) {
 }
 
 
-function setTab(target, allElements, grades) {
+function setTab(target, allElements, grades, currentGrade) {
 	if (!target.classList.contains("active")){
 		allElements.forEach(function(e) {
 			if (e.classList.contains("active")) {
@@ -59,10 +59,12 @@ function setTab(target, allElements, grades) {
 		target.classList.add("active", "has-bg-white", "has-text-primary")
 		grades.forEach(function(element, i) {
 			block = document.querySelector(`#grade-${element}`)
-			if (!block.classList.contains("is-hidden")) {
-				block.classList.add("is-hidden");
-			} else {
+			if (element == currentGrade){
 				block.classList.remove("is-hidden");
+			} else {
+				if (!block.classList.contains("is-hidden")) {
+					block.classList.add("is-hidden");
+				}
 			}
 		});
 	}
@@ -167,4 +169,4 @@ function deleteModal() {
 	}
 }
 
- document.addEventListener("keydown", function(event) { if (event.key == "Escape") {deleteModal()}})
+document.addEventListener("keydown", function(event) { if (event.key == "Escape") {deleteModal()}})

@@ -12,12 +12,15 @@ let tabChildrens = [];
 
 let data = {}
 
-axios.get("data.json")
+axios.get("https://lybotapi.onrender.com/attendance")
 .then(function (response) {
 	const data = response.data
 	const grades = Object.keys(data);
-	let activeTab = grades[0]
-
+	let activeTab = sessionStorage.getItem("activeTab");
+	if (!activeTab) {
+		activeTab = grades[0]
+	}
+	sessionStorage.setItem("activeTab", activeTab)
 	createTabs(data, grades, activeTab)
 	createStudentsTable(data, grades)
 	document.querySelector(`#grade-${activeTab}`).classList.remove("is-hidden")
@@ -61,6 +64,8 @@ function setTab(target, allElements, grades, currentGrade) {
 			block = document.querySelector(`#grade-${element}`)
 			if (element == currentGrade){
 				block.classList.remove("is-hidden");
+				sessionStorage.setItem("activeTab", currentGrade)
+
 			} else {
 				if (!block.classList.contains("is-hidden")) {
 					block.classList.add("is-hidden");

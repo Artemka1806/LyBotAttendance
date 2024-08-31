@@ -16,3 +16,18 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+table img {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  z-index: 1;
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+table img:hover {
+  z-index: 10;
+  transform: scale(3);
+  border-radius: 2px;
+}

@@ -87,12 +87,12 @@ function createStudentsTable(data, grades) {
 			let tbody = table.querySelector("tbody")
 			let studentsData = gradeData[group]
 			let studentNames = Object.keys(studentsData)
-			studentNames.forEach(function(student) {
+			studentNames.forEach(function(student, num) {
 				let name = studentsData[student]["name"]
 				let status = studentsData[student]["status"]
 				let message = studentsData[student]["message"]
 				let avatarUrl = studentsData[student]["avatar_url"]
-				let row = createRow(student, status, message, avatarUrl)
+				let row = createRow(num + 1, student, status, message, avatarUrl)
 
 				tbody.appendChild(row)
 			});
@@ -120,6 +120,7 @@ function createTable(groupName) {
     table.innerHTML = `
         <thead>
             <tr>
+            	<th class="has-p-2">№</th>
                 <th class="has-p-2">${groupName}</th>
                 <th class="has-p-2">Статус</th>
             </tr>
@@ -131,13 +132,14 @@ function createTable(groupName) {
 }
 
 
-function createRow(name, status, message, avatarUrl) {
+function createRow(num, name, status, message, avatarUrl) {
 	let messageElement = ""
 	if (message) {
 		messageElement = `<i class="si-message" style="color: blue;" onclick="createModal('Причина запізнення', '${message}')"></i> `
 	}
     let row = document.createElement("tr");
     row.innerHTML = `
+    	<td class="has-p-2">${num}</td>
         <td class="has-p-2" style="display: flex; align-items: center;"><img src="${avatarUrl}"><span style="margin-left: 5px;">${messageElement}${name}</span></td>
         <td class="has-p-2 has-text-center tooltip">
             <i class="${statuses[status][0]}" style="font-size: 20px; color: ${statuses[status][1]};"></i>

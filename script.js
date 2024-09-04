@@ -178,3 +178,5 @@ function deleteModal() {
 }
 
 document.addEventListener("keydown", function(event) { if (event.key == "Escape") {deleteModal()}})
+setTimeout("window.location.reload()",10000)
+

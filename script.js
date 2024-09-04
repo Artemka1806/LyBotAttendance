@@ -1,3 +1,4 @@
+let cords = ['scrollX','scrollY'];
 const urlParams = new URLSearchParams(window.location.search);
 
 
@@ -24,6 +25,7 @@ axios.get("https://lybotapi.onrender.com/attendance")
 	createTabs(data, grades, activeTab)
 	createStudentsTable(data, grades)
 	document.querySelector(`#grade-${activeTab}`).classList.remove("is-hidden")
+	window.scroll(...cords.map(cord => localStorage[cord]));
 })
 
 
@@ -178,9 +180,8 @@ function deleteModal() {
 }
 2
 
-let cords = ['scrollX','scrollY'];
+
 window.addEventListener('unload', e => cords.forEach(cord => localStorage[cord] = window[cord]));
-window.scroll(...cords.map(cord => localStorage[cord]));
 document.addEventListener("keydown", function(event) { if (event.key == "Escape") {deleteModal()}})
 setTimeout("window.location.reload()",10000)
 

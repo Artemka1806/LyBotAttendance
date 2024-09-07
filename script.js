@@ -192,7 +192,7 @@ function deleteModal() {
 
 function openSettings() {
 	let isAutoUpdate = ""
-	if (settings.autoUpdate===true) {
+	if (settings.autoUpdate===true || settings.autoUpdate===null) {
 		isAutoUpdate = "checked"
 	}
 	let modalContent = `

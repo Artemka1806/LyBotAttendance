@@ -23,7 +23,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 
 let data = {}
 
-axios.get("https://lybotapi.onrender.com/attendance")
+axios.get(`${settings.apiUrl}/attendance`)
 .then(function (response) {
 	const data = response.data
 	const grades = Object.keys(data);
@@ -202,6 +202,8 @@ function openSettings() {
 	</label>
 	<label class="label" for="imageScale">Збільшувати зображення профіля в стільки разів:</label>
 	<input class="input" type="number" value="${settings.imageScale}" id="imageScale">
+	<label class="label" for="apiUrl">API URL:</label>
+	<input class="input" type="text" value="${settings.apiUrl}" id="apiUrl">
 	<button class="button is-full" style="margin: auto; margin-top: 32px; display: block" onclick="saveSettings()">Оке</button>
 	`;
 	createModal("Налаштування", modalContent)
@@ -213,6 +215,8 @@ function saveSettings() {
 	localStorage.setItem("autoUpdate", checkboxValue);
 	let imageScaleValue = document.querySelector("#imageScale").value;
 	localStorage.setItem("imageScale", imageScaleValue);
+	let apiUrlValue = document.querySelector("#apiUrl").value;
+	localStorage.setItem("apiUrl", apiUrlValue);
 	deleteModal()
 	window.location.reload()
 }
@@ -227,10 +231,14 @@ function loadSettings() {
 	if (!imageScale) {
 		imageScale = 3
 	}
-
+	let apiUrl = localStorage.getItem("apiUrl")
+	if (!apiUrl) {
+		apiUrl = "https://lybotapi.onrender.com"
+	}
 	return {
 		autoUpdate: autoUpdate,
-		imageScale: imageScale
+		imageScale: imageScale,
+		apiUrl: apiUrl
 	}
 
 }

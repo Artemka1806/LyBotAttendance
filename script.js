@@ -10,6 +10,16 @@ if (alertParam != null){
 const tabContainer = document.querySelector(".tab-container");
 let tabChildrens = [];
 
+settings = loadSettings()
+let css = `table img:hover {z-index: 10;border-radius: 2px;transform: scale(${settings.imageScale});}`;
+let style = document.createElement("style");
+if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+} else {
+    style.appendChild(document.createTextNode(css));
+}
+document.getElementsByTagName('head')[0].appendChild(style);
+
 
 let data = {}
 
@@ -94,7 +104,7 @@ function createStudentsTable(data, grades) {
 				let status = studentsData[student]["status"]
 				let message = studentsData[student]["message"]
 				let avatarUrl = studentsData[student]["avatar_url"]
-				let row = createRow(num + 1, student, status, message, avatarUrl)
+				let row = createRow(num + 1, student, status, message, avatarUrl, settings)
 
 				tbody.appendChild(row)
 			});
@@ -178,10 +188,53 @@ function deleteModal() {
 		modal.remove()
 	}
 }
-2
 
+
+function openSettings() {
+	let isAutoUpdate = ""
+	if (settings.autoUpdate===true) {
+		isAutoUpdate = "checked"
+	}
+	let modalContent = `
+	<label class="label" for="autoUpdate">
+	    <span class="has-mr-2">Автоматичне оновлення</span>
+	    <input type="checkbox" id="autoUpdate" class="checkbox" ${isAutoUpdate} />
+	</label>
+	<label class="label" for="imageScale">Збільшувати зображення профіля в стільки разів:</label>
+	<input class="input" type="number" value="${settings.imageScale}" id="imageScale">
+	<button class="button is-full" style="margin: auto; margin-top: 32px; display: block" onclick="saveSettings()">Оке</button>
+	`;
+	createModal("Налаштування", modalContent)
+}
+
+
+function saveSettings() {
+	let checkboxValue = document.querySelector("#autoUpdate").checked;
+	localStorage.setItem("autoUpdate", checkboxValue);
+	let imageScaleValue = document.querySelector("#imageScale").value;
+	localStorage.setItem("imageScale", imageScaleValue);
+	deleteModal()
+	window.location.reload()
+}
+
+
+function loadSettings() {
+	let autoUpdate = localStorage.getItem("autoUpdate")
+	if (autoUpdate===true || autoUpdate===null){
+		setTimeout("window.location.reload()",10000)
+	}
+	let imageScale = localStorage.getItem("imageScale")
+	if (!imageScale) {
+		imageScale = 3
+	}
+
+	return {
+		autoUpdate: autoUpdate,
+		imageScale: imageScale
+	}
+
+}
 
 window.addEventListener('unload', e => cords.forEach(cord => localStorage[cord] = window[cord]));
 document.addEventListener("keydown", function(event) { if (event.key == "Escape") {deleteModal()}})
-setTimeout("window.location.reload()",10000)
 

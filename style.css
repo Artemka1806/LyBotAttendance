@@ -1,3 +1,17 @@
+.settings-button {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  z-index: 9;
+  outline: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 20px;
+
+}
+
 .tooltiptext {
   visibility: hidden;
   width: 120px;
@@ -24,10 +38,4 @@ table img {
   position: relative;
   width: 24px;
   height: 24px;
-}
-
-table img:hover {
-  z-index: 10;
-  transform: scale(3);
-  border-radius: 2px;
 }

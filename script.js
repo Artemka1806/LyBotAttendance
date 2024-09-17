@@ -225,7 +225,7 @@ function saveSettings() {
 function loadSettings() {
 	let autoUpdate = localStorage.getItem("autoUpdate")
 	if (autoUpdate===true || autoUpdate===null){
-		setTimeout("window.location.reload()",10000)
+		setTimeout("window.location.reload()",30000)
 	}
 	let imageScale = localStorage.getItem("imageScale")
 	if (!imageScale) {

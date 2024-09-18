@@ -152,7 +152,7 @@ function createRow(num, name, status, message, avatarUrl) {
     let row = document.createElement("tr");
     row.innerHTML = `
     	<td class="has-p-2">${num}</td>
-        <td class="has-p-2" style="display: flex; align-items: center;"><img src="${avatarUrl}"><span style="margin-left: 5px;">${messageElement}${name}</span></td>
+        <td class="has-p-2" style="display: flex; align-items: center;"><span>${messageElement}${name}</span></td>
         <td class="has-p-2 has-text-center tooltip">
             <i class="${statuses[status][0]}" style="font-size: 20px; color: ${statuses[status][1]};"></i>
             <span class="tooltiptext">${statuses[status][2]}</span>

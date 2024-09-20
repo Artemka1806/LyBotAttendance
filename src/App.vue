@@ -1,6 +1,6 @@
 <script setup>
 import axios from 'axios'
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted, onBeforeUnmount } from 'vue'
 
 const statuses = [
 	["si-check", "green", "В ліцеї"],
@@ -13,12 +13,14 @@ const API_URL = import.meta.env.VITE_API_URL
 
 let grades = ref([])
 let tabs = ref([])
+let intervalId = null
 
-
-
-axios.get(API_URL + "/attendance")
-  .then(response => {
+const fetchData = async () => {
+  try {
+    const response = await axios.get(API_URL + "/attendance")
     grades.value = Object.keys(response.data)
+    tabs.value = []
+
     grades.value.forEach(grade => {
       tabs.value.push({
         grade: grade,
@@ -33,8 +35,10 @@ axios.get(API_URL + "/attendance")
     }
 
     setActiveTab(activeTab)
-  })
-
+  } catch (error) {
+    console.error("Помилка при отриманні даних:", error)
+  }
+}
 
 const setActiveTab = (grade) => {
   tabs.value.forEach(tab => {
@@ -42,6 +46,24 @@ const setActiveTab = (grade) => {
   })
   sessionStorage.setItem("activeTab", grade)
 }
+
+
+const startAutoUpdate = () => {
+  intervalId = setInterval(() => {
+    fetchData()
+  }, 10000)
+}
+
+onMounted(() => {
+  fetchData()
+  startAutoUpdate()
+})
+
+onBeforeUnmount(() => {
+  if (intervalId) {
+    clearInterval(intervalId)
+  }
+})
 
 const activeClass = reactive({
   "active": true,

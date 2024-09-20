@@ -39,3 +39,8 @@ table img {
   width: 24px;
   height: 24px;
 }
+
+.tab {
+  padding-top: 5px;
+  padding-bottom: 0px;
+}

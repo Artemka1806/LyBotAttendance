@@ -3,10 +3,10 @@ import axios from 'axios'
 import { ref, reactive, onMounted, onBeforeUnmount } from 'vue'
 
 const statuses = [
-	["si-check", "green", "В ліцеї"],
-	["si-rocket", "black", "В дорозі"],
-	["si-clock", "blue", "Запізниться"],
-	["si-x", "red", "Вдома"],
+  ["si-check", "green", "В ліцеї"],
+  ["si-rocket", "black", "В дорозі"],
+  ["si-clock", "blue", "Запізниться"],
+  ["si-x", "red", "Вдома"],
 ]
 
 const API_URL = import.meta.env.VITE_API_URL
@@ -14,6 +14,11 @@ const API_URL = import.meta.env.VITE_API_URL
 let grades = ref([])
 let tabs = ref([])
 let intervalId = null
+let modalData = ref({
+  header: "",
+  body: "",
+  isActive: false
+})
 
 const fetchData = async () => {
   try {
@@ -75,21 +80,40 @@ const getTabClass = (grade) => {
   const tab = tabs.value.find(tab => tab.grade === grade)
   return tab && tab.isActive ? activeClass : ''
 }
+
+const openSettings = () => {
+  modalData.value = {
+    header: "Налаштування",
+    body: "Тут буде форма налаштувань",
+    isActive: true
+  }
+}
+
 </script>
 
 <template>
-  <!-- <button class="settings-button" @click="alert('a')">
-    <i class="si-hamburger"></i>
-  </button> -->
+  <div class="scrim" v-if="modalData.isActive">
+    <div class="modal">
+      <div class="is-flex has-items-center">
+        <h4 class="has-mb-none has-mt-none">{{ modalData.header }}</h4>
+        <div class="close has-ml-auto" @click="modalData.isActive = false"></div>
+      </div>
+      <div class="has-pt-6" v-html="modalData.body"></div>
+    </div>
+  </div>
   <div class="tab-container is-flex has-direction-column-mobile has-bg-muted has-p-1">
     <a v-for="tab in tabs" :key="tab.grade" @click="setActiveTab(tab.grade)" :id="tab.grade"
       class="tab has-text-center has-h-8 navlink" :class="getTabClass(tab.grade)">
       {{ tab.grade + "-ті класи" }}
     </a>
+    <a @click="openSettings" style="width: 50px; margin-left: 5px;"
+      class="tab has-text-center has-h-8 navlink has-bg-white has-text-primary">
+      <i class="si-hamburger"></i>
+    </a>
   </div>
   <div v-for="tab in tabs" :id="'grade-' + tab.grade" class="table-container columns has-w-full has-ml-0 has-mr-0"
     :class="{ 'is-hidden': !tab.isActive }">
-    <table v-for="groupName in Object.keys(tab.data)" class="column is-full-mobile has-mb-0 is-one-fifth">
+    <table v-for="groupName in Object.keys(tab.data)" class="column is-full-mobile has-mb-0">
       <thead>
         <tr>
           <th class="has-p-2">№</th>
@@ -100,9 +124,12 @@ const getTabClass = (grade) => {
       <tbody>
         <tr v-for="(student, index) in tab.data[groupName]">
           <td class="has-p-2">{{ Object.keys(tab.data[groupName]).indexOf(index) + 1 }}</td>
-          <td class="has-p-2" style="display: flex; align-items: center;">{{ student.name }}</td>
+          <td class="has-p-2" style="display: flex; align-items: center;">
+            {{ student.name }}
+          </td>
           <td class="has-p-2 has-text-center tooltip">
-            <i :class="statuses[student.status][0]" style="font-size: 20px;" :style="{'color': statuses[student.status][1]}"></i>
+            <i :class="statuses[student.status][0]" style="font-size: 20px;"
+              :style="{ 'color': statuses[student.status][1] }"></i>
             <span class="tooltiptext">{{ statuses[student.status][2] }}</span>
           </td>
         </tr>

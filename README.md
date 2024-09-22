@@ -16,6 +16,14 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 npm install
 ```
 
+### Create a .env File
+
+Create a `.env` file in the root of your project:
+
+```sh
+VITE_API_URL=https://lybotapi.onrender.com
+```
+
 ### Compile and Hot-Reload for Development
 
 ```sh

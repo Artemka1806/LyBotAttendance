@@ -91,3 +91,9 @@ table img {
   padding-top: 5px;
   padding-bottom: 0px;
 }
+
+@media (max-width: 639px) {
+  table {
+    max-width: 100%;
+  }
+}

@@ -26,12 +26,19 @@ const fetchData = async () => {
     const response = await axios.get(API_URL + "/attendance")
     grades.value = Object.keys(response.data)
     tabs.value = []
-
     grades.value.forEach(grade => {
+      let data = response.data[grade]
+      Object.keys(data).forEach(gradeData => {
+        gradeData = data[gradeData]
+        Object.keys(gradeData).forEach((student, i) => {
+          student = gradeData[student]
+          student.number = i + 1
+        })
+      })
       tabs.value.push({
         grade: grade,
         isActive: false,
-        data: response.data[grade]
+        data: data
       })
     })
 
@@ -117,7 +124,7 @@ const getTabClass = (grade) => {
       class="tab has-text-center has-h-8 navlink has-bg-white has-text-primary">
       <i class="si-hamburger"></i>
     </a>
-    
+
   </div>
   <div v-for="tab in tabs" :id="'grade-' + tab.grade" class="table-container columns has-w-full has-ml-0 has-mr-0"
     :class="{ 'is-hidden': !tab.isActive }">
@@ -130,8 +137,8 @@ const getTabClass = (grade) => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(student, index) in tab.data[groupName]">
-          <td class="has-p-2">{{ Object.keys(tab.data[groupName]).indexOf(index) + 1 }}</td>
+        <tr v-for="student in tab.data[groupName]">
+          <td class="has-p-2">{{ student.number }}</td>
           <td class="has-p-2" style="display: flex; align-items: center;">
             {{ student.name }}
           </td>

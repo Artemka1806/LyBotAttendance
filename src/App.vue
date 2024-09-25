@@ -64,7 +64,7 @@ const setActiveTab = (grade) => {
 const startAutoUpdate = () => {
   intervalId = setInterval(() => {
     fetchData()
-  }, 10000)
+  }, 30000)
 }
 
 onMounted(() => {

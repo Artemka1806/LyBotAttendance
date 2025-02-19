@@ -40,13 +40,49 @@ button.addEventListener("click", async () => {
 
     // Читання тексту з буфера обміну
     const clipboardText = await navigator.clipboard.readText();
+
+
+
     if (!clipboardText) {
       alert("Clipboard is empty!");
       return;
     }
 
+    //--------------------------------------------------------------------------------------
+    const lines = clipboardText.split("\n");
+    let header = [];
+    let names = [];
+    let isSortingSection = false;
+
+    for (const line of lines) {
+      if (line.includes(":")) {
+        isSortingSection = true;
+      }
+      if (isSortingSection) {
+        names.push(line);
+      } else {
+        header.push(line);
+      }
+    }
+
+    // Видаляємо заголовок списку перед сортуванням
+    const title = names.shift();
+
+    // Сортування за прізвищем з урахуванням української локалізації
+    names.sort((a, b) => {
+      const lastNameA = a.split(" ")[0];
+      const lastNameB = b.split(" ")[0];
+      return lastNameA.localeCompare(lastNameB, "uk");
+    });
+
+    // Відновлюємо структуру тексту
+    const sortedText = [...header, title, ...names].join("\n");
+    console.log(sortedText);
+
+    //--------------------------------------------------------------------------------------
+
     //Показ вікна з текстом, чатом та кнопками підтвердження та відміни і після підтвердження відправка повідомлення
-    if (confirm(`Надіслати в ${selectedChatName}?\n\n${clipboardText}`)) {
+    if (confirm(`Надіслати в ${selectedChatName}?\n\n${sortedText}`)) {
       // Надсилання повідомлення до вибраного чату
       const response = await fetch(TELEGRAM_API_URL, {
         method: "POST",
@@ -54,7 +90,7 @@ button.addEventListener("click", async () => {
         body: JSON.stringify({
           chat_name: selectedChatName,
           chat_id: selectedChatID,
-          text: clipboardText
+          text: sortedText
         })
       });
 
@@ -62,7 +98,7 @@ button.addEventListener("click", async () => {
         throw new Error(`Telegram API error: ${response.statusText}`);
       }
 
-      alert(`Надіслано в групу ${selectedChatName} \n\n${clipboardText}`);
+      alert(`Надіслано в групу ${selectedChatName} \n\n${sortedText}`);
     }
 
 
